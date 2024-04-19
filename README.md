@@ -1,5 +1,19 @@
 # Création d'un Dockerfile simple
 
+## Pour lancer le projet via Docker
+
+```
+# Build docker image
+docker build -t nodeimg .
+
+# Run docker image in container
+docker run --name nodeapp -d -h mydocker -p 3000:1337 nodeimg
+
+# Stop and delete container
+docker stop nodeapp && docker rm nodeapp
+```
+L'api est joignable via `localhost:3000`
+
 ## Pour lancer le projet en local
 
 Il vous faut **NodeJS 20**.
