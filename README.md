@@ -11,6 +11,15 @@ docker run --name nodeapp -d -h mydocker -e PORT=1337 -p 3000:1337 nodeimg
 
 # Stop and delete container
 docker stop nodeapp && docker rm nodeapp
+
+# Rebuild local image used in docker compose file
+docker compose build
+
+# Start the docker-compose
+docker compose up
+
+# Delete containers created with docker-compose
+docker compose down
 ```
 L'api est joignable via `localhost:3000`
 
