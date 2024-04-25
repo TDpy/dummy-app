@@ -7,7 +7,7 @@
 docker build -t nodeimg .
 
 # Run docker image in container
-docker run --name nodeapp -d -h mydocker -p 3000:1337 nodeimg
+docker run --name nodeapp -d -h mydocker -e PORT=1337 -p 3000:1337 nodeimg
 
 # Stop and delete container
 docker stop nodeapp && docker rm nodeapp
