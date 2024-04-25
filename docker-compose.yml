@@ -1,0 +1,54 @@
+version: '1.0'
+
+networks:
+  my_network:
+    driver: bridge
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  redis:
+    image: redis:latest
+    environment:
+      REDIS_PORT: 6379
+    networks:
+      - my_network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    environment:
+      PORT: ${PORT:-1337}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+    volumes:
+      - .:/app
+    ports:
+      - "3000:${PORT:-1337}"
+    hostname: "mydocker"
+    user: 1:1
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - my_network
+
+volumes:
+  mysql_data:
